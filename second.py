@@ -62,11 +62,14 @@ def btnpress1():              # 리스트 박스 중 선택된 값 삭제
     print(list_final)
 
 def complete():     
-    global newWindow, new_lbox       # 새 창 띄우기, 임시 리스트박스(이거 고치면 됨)
+    global newWindow, new_lbox , finish_label     # 새 창 띄우기, 최종 과목명 출력 리스트박스
     newWindow = Toplevel()
-    newWindow.title("수꾸 데이터 시각화")
+    newWindow.title("(최종) 수강 꾸러미 목록")
     newWindow.geometry("500x600+10+10")
     ######################################### 다음 창에서는 여기부터
+    finish_label = Label(newWindow, text='수강 꾸러미')
+    finish_label.pack(side=TOP, pady=10)
+
     new_lbox = Listbox(newWindow, width=50)
     new_lbox.config(selectmode="single")
     new_lbox.config(height=6)
@@ -77,6 +80,25 @@ def complete():
     #################################################여기까지 삭제하고 시작(list 형태로 넘겨줘야되는거: list_market)
 
     newWindow.mainloop()
+
+def detail(evnet):
+    num = lb.curselection()
+    if num:
+        num=int(num[0])
+        global detailWindow, finish_lbox       # 새 창 띄우기, 최종 과목명 출력 리스트박스(이거 고치면 됨-임시)
+        detailWindow = Toplevel()
+        
+        detailWindow.geometry("500x600+10+10")
+    ######################################### 다음 창에서는 여기부터
+        finish_lbox = Listbox(detailWindow, width=50)
+        finish_lbox.config(selectmode="single")
+        finish_lbox.config(height=6)
+        finish_lbox.pack(padx=10, pady=5)
+        detailWindow.title("(데이터 시각화)" + list_market[num])
+        finish_lbox.insert(END, list_market[num])
+    # for i in range (len(list_market)):      # for 문으로 수꾸 리스트 출력(임시)
+    #     print(list_market[i])
+    #     finish_lbox.insert(END, list_market[i])
     
 def realCheck():        # 확정을 물어보는 메세지박스
     messagebox.askyesno('확인', "진짜 완료 됨??")
@@ -96,6 +118,8 @@ lb.config(selectmode="single")    # 리스트 박스 selectmode 설정
 lb.config(height = 6)             # 리스트 박스 높이 설정
 lb.pack(padx=10, pady=5)                         # 리스트 박스 배치
     
+lb.bind('<Double-Button-1>', detail)            # 리스트 박스 데이터시각화  ####해당 값 더블클릭 시 데이터 시각화 페이지로 이동
+
 # ent = Entry(window2)                 # 입력창 생성
 # ent.pack()                        # 입력창 배치
 
