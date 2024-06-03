@@ -1,5 +1,10 @@
 from tkinter import *
 from tkinter import messagebox
+import look_detail
+import random
+
+list_market = []    #수강 꾸러미 목록
+member_final = []   #수강생 수
 
 def open_cart_page(master):
     window2 = Toplevel(master)
@@ -13,10 +18,13 @@ def open_cart_page(master):
     list3 = ["배주화", "이찬수", "유제혁", "이경미", "유견아", "유제혁"]
     list4 = ["01", "02", "01", "03", "02", "01"]
     list_final = [1,2,3,4,5,6]
+
+    member = [random.randint(1,10) for _ in range(len(list_final))]  # 각 과목별 수강생 수
+
     for i in range(len(list1)):
         list_final[i] = list1[i] + " // 과목코드: " + list2[i] + " // 교수명: " + list3[i] + " [" + list4[i] + "]"
 
-
+    
     def lookup(list1):      #리스트 확인
         for i in range (len(list1)):
             lb2.insert(END, list_final[i])
@@ -32,7 +40,6 @@ def open_cart_page(master):
     lb2.config(height=10)
     lb2.pack(padx=10)
 
-    list_market = []            #수강 꾸러미 목록
 
     def btnpress():     # 입력창의 내용을 리스트 박스 마지막에 추가
         num = lb2.curselection()   
@@ -40,9 +47,13 @@ def open_cart_page(master):
         #print(lb2.curselection())          
         lb.insert(END, list_final[num]) 
         list_market.append(list_final[num])
-        print(list_market)
-        lb2.delete(lb2.curselection())
-        list_final.remove(list_final[num])
+        member_final.append(member[num])
+        #print(list_market)
+        lb2.delete(num)
+        del list_final[num]
+        del member[num]
+        # list_final.remove(list_final[num])
+        # member.remove(member[num])
         
     def btnpress1():              # 리스트 박스 중 선택된 값 삭제  
         #lb.delete(lb.curselection())  
@@ -55,12 +66,14 @@ def open_cart_page(master):
         # lb.delete(lb.curselection())  # 리스트 박스 중 선택된 값 삭제
         # print(list_market)
 
-        print(lb.curselection())
+        #print(lb.curselection())
         lb2.insert(END, list_market[int(lb.curselection()[0])])
         list_final.append(list_market[int(lb.curselection()[0])])
+        member.append(member_final[int(lb.curselection()[0])])
         list_market.remove(list_market[int(lb.curselection()[0])])
+        member_final.remove(member_final[int(lb.curselection()[0])])
         lb.delete(lb.curselection())  # 리스트 박스 중 선택된 값 삭제
-        print(list_final)
+        #print(list_final)
 
     def complete():     
         global newWindow, new_lbox , finish_label     # 새 창 띄우기, 최종 과목명 출력 리스트박스
@@ -68,35 +81,39 @@ def open_cart_page(master):
         newWindow.title("(최종) 수강 꾸러미 목록")
         newWindow.geometry("500x600+10+10")
         ######################################### 다음 창에서는 여기부터
-        finish_label = Label(newWindow, text='수강 꾸러미')
-        finish_label.pack(side=TOP, pady=10)
+        # finish_label = Label(newWindow, text='수강 꾸러미')
+        # finish_label.pack(side=TOP, pady=10)
 
-        new_lbox = Listbox(newWindow, width=50)
-        new_lbox.config(selectmode="single")
-        new_lbox.config(height=6)
-        new_lbox.pack(padx=10, pady=5)
-        for i in range (len(list_market)):      # for 문으로 수꾸 리스트 출력(임시)
-            print(list_market[i])
-            new_lbox.insert(END, list_market[i])
+        # new_lbox = Listbox(newWindow, width=50)
+        # new_lbox.config(selectmode="single")
+        # new_lbox.config(height=6)
+        # new_lbox.pack(padx=10, pady=5)
+        # for i in range (len(list_market)):      # for 문으로 수꾸 리스트 출력(임시)
+        #     print(list_market[i])
+        #     new_lbox.insert(END, list_market[i])
+        
         #################################################여기까지 삭제하고 시작(list 형태로 넘겨줘야되는거: list_market)
 
         newWindow.mainloop()
 
-    def detail(evnet):
+    def detail(event):
         num = lb.curselection()
         if num:
             num=int(num[0])
-            global detailWindow, finish_lbox       # 새 창 띄우기, 최종 과목명 출력 리스트박스(이거 고치면 됨-임시)
+            global detailWindow #, finish_lbox       # 새 창 띄우기, 최종 과목명 출력 리스트박스(이거 고치면 됨-임시)
             detailWindow = Toplevel()
             
             detailWindow.geometry("500x600+10+10")
+            look_detail.PieChart(list_market[num], member_final[num])
+            detailWindow.title('수강내역 상세보기')
         ######################################### 다음 창에서는 여기부터
-            finish_lbox = Listbox(detailWindow, width=50)
-            finish_lbox.config(selectmode="single")
-            finish_lbox.config(height=6)
-            finish_lbox.pack(padx=10, pady=5)
-            detailWindow.title("(데이터 시각화)" + list_market[num])
-            finish_lbox.insert(END, list_market[num])
+            # finish_lbox = Listbox(detailWindow, width=50)
+            # finish_lbox.config(selectmode="single")
+            # finish_lbox.config(height=6)
+            # finish_lbox.pack(padx=10, pady=5)
+            # detailWindow.title("(데이터 시각화)" + list_market[num])
+            # finish_lbox.insert(END, list_market[num])
+
         # for i in range (len(list_market)):      # for 문으로 수꾸 리스트 출력(임시)
         #     print(list_market[i])
         #     finish_lbox.insert(END, list_market[i])
@@ -136,5 +153,8 @@ def open_cart_page(master):
     btn2.config(width=10)
     btn2.config(command=realCheck)        #버튼 기능 (completet() 함수 호출)
     btn2.pack(pady=10)
+
+
+   
 
     window2.mainloop()
