@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import look_detail
+import final_page as final_page
 import random
 
 list_market = []    #수강 꾸러미 목록
@@ -19,7 +20,7 @@ def open_cart_page(master):
     list4 = ["01", "02", "01", "03", "02", "01"]
     list_final = [1,2,3,4,5,6]
 
-    member = [random.randint(1,10) for _ in range(len(list_final))]  # 각 과목별 수강생 수
+    member = [random.randint(1,20) for _ in range(len(list_final))]  # 각 과목별 수강생 수(랜덤)
 
     for i in range(len(list1)):
         list_final[i] = list1[i] + " // 과목코드: " + list2[i] + " // 교수명: " + list3[i] + " [" + list4[i] + "]"
@@ -80,6 +81,7 @@ def open_cart_page(master):
         newWindow = Toplevel()
         newWindow.title("(최종) 수강 꾸러미 목록")
         newWindow.geometry("500x600+10+10")
+        final_page.real_final(newWindow, member_final, list_market)
         ######################################### 다음 창에서는 여기부터
         # finish_label = Label(newWindow, text='수강 꾸러미')
         # finish_label.pack(side=TOP, pady=10)
@@ -119,7 +121,7 @@ def open_cart_page(master):
         #     finish_lbox.insert(END, list_market[i])
         
     def realCheck():        # 확정을 물어보는 메세지박스
-        messagebox.askyesno('확인', "진짜 완료 됨??")
+        messagebox.askyesno('확인', "확정 지으시겠습니까?")
         complete()          # 새 창을 띄우는 함수로 넘어감
 
     btn = Button(window2)                

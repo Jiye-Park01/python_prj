@@ -5,25 +5,36 @@ import random
 import cart_page
 
 
-def PieChart(str, member):
+def PieChart(stray, member):
     plt.rcParams['font.family'] = "Malgun Gothic"
     plt.rcParams['axes.unicode_minus']=False  ### 원형차트 한글 인코딩
     
-    X = [member,10-member]
+    # X = [member,10-member]      
+    # X_ = [10, 10]
     labels=["수강꾸러미 신청인원", "수강꾸러미 남은인원"]
-    explode = [0,0.1]
-    colors = ["r","b"]
+    explode = [0.1,0]
+    colors = ["red","blue"]
     
-    list_title = str.split('/')
+    list_title = stray.split('/')
     #전 페이지에서 문자열 받아오기
     
+    if member <= 10:    #초과 인원 발생할 수 있게 수정
+        # 수강인원이 10명 이하일 경우
+        X = [member, 10 - member]
+    else:
+        # 수강인원이 10명을 초과하는 경우
+        #member = str(member)
+        #lb_ = Label(cart_page.detailWindow, text=("정원이 초과되었습니다.\n현재 신청 정원: " + member))
+        #lb_.pack(cart_page.detailWindow)
+        colors = ["yellow", "blue"]
+        X = [10, 0]  # 10명 고정, 초과 인원으로 표시
+        labels = ["정원이 초과되었습니다", "-"]
 
-    # 파이차트 그리기
     fig, ax = plt.subplots()
     ax.pie(X, labels=labels, explode=explode, colors=colors, autopct='%1.1d명', startangle=140)
     ax.axis('equal')  # 원형을 유지
     ax.set_title(list_title[0])  # 제목 설정
-    
+        
     # Matplotlib 그림을 Tkinter 창에 삽입
     canvas = FigureCanvasTkAgg(fig, master=cart_page.detailWindow)
     canvas.draw()
@@ -33,7 +44,11 @@ def PieChart(str, member):
     plt.plot(label="수강꾸러미 남은인원")
     plt.legend()
     plt.title(list_title[0])
+        
+    
 
+
+    
 
     
 # graph = Tk()
