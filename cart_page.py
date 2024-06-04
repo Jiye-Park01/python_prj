@@ -105,7 +105,7 @@ def open_cart_page(master):
             global detailWindow #, finish_lbox       # 새 창 띄우기, 최종 과목명 출력 리스트박스(이거 고치면 됨-임시)
             detailWindow = Toplevel()
             
-            detailWindow.geometry("500x600+10+10")
+            detailWindow.geometry("600x400+10+10")
             look_detail.PieChart(list_market[num], member_final[num])
             detailWindow.title('수강내역 상세보기')
         ######################################### 다음 창에서는 여기부터
@@ -121,8 +121,11 @@ def open_cart_page(master):
         #     finish_lbox.insert(END, list_market[i])
         
     def realCheck():        # 확정을 물어보는 메세지박스
-        messagebox.askyesno('확인', "확정 지으시겠습니까?")
-        complete()          # 새 창을 띄우는 함수로 넘어감
+        str = messagebox.askyesno('확인', "확정 지으시겠습니까?")
+        if str == True:
+            complete()      # 새 창을 띄우는 함수로 넘어감
+        
+
 
     btn = Button(window2)                
     btn.config(text= "수강 꾸러미에 추가")          # 버튼 내용 
