@@ -15,7 +15,7 @@ def PieChart(stray, member):
     explode = [0.1,0]
     colors = ["red","blue"]
     
-    list_title = stray.split('/')
+    list_title = stray
     #전 페이지에서 문자열 받아오기
     
     if member <= 10:    #초과 인원 발생할 수 있게 수정
@@ -33,7 +33,7 @@ def PieChart(stray, member):
     fig, ax = plt.subplots()
     ax.pie(X, labels=labels, explode=explode, colors=colors, autopct='%1.1d명', startangle=140)
     ax.axis('equal')  # 원형을 유지
-    ax.set_title(list_title[0])  # 제목 설정
+    ax.set_title(list_title[1])  # 제목 설정
         
     # Matplotlib 그림을 Tkinter 창에 삽입
     canvas = FigureCanvasTkAgg(fig, master=cart_page.detailWindow)
@@ -43,7 +43,7 @@ def PieChart(stray, member):
     plt.plot(label="수강꾸러미 신청인원")
     plt.plot(label="수강꾸러미 남은인원")
     plt.legend()
-    plt.title(list_title[0])
+    plt.title(list_title[1])
         
     
 

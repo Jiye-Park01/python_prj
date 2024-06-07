@@ -6,7 +6,8 @@ def login():
     user_pw = input_pw.get()
 
     if user_id == '20001234' and user_pw == '1234':
-        cart_page.open_cart_page(window)
+        window.destroy()
+        cart_page.open_cart_page()
     else:
         messagebox.showerror("로그인 오류", "아이디 또는 비밀번호를 다시 확인해주세요.")
 

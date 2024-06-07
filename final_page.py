@@ -22,9 +22,8 @@ def real_final(window, member_final, list_market, full_number=10):
             else:
                 fail_lbox.insert(END, list_market[i])
 
-        
         fail_label.pack()
         
         fail_lbox.config(selectmode="none")
         fail_lbox.config(height=6)
-        fail_lbox.pack(padx=10, pady=5)        
+        fail_lbox.pack(padx=10, pady=5)
